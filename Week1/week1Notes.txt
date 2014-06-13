@@ -92,3 +92,70 @@ boolean selection and iteration (conditional assignment)
 x[x<=5] <- 0
 
 set all elements in the list x that are less than or equal to 5 to 0
+
+factors
+special kind of vector -> categorical data
+- ordered
+- unordered
+
+x <- factor(c("yes", "yes", "no"))
+table(x)
+unclass(x)
+
+
+-----
+reordering the levels:
+
+factor(c("yes","no"), levels = c("yes","no"))
+
+
+NaN: undefined mathematical operation
+Na:  undefined anything else
+
+is.na()
+is.nan() 
+
+when it is called on a list, returns a list correseponding to the results of the function
+being called on every index
+
+------
+
+Data Frame
+-> tabular data
+
+Frame vs matrix:
+types can be different in frame but not in matrix
+
+attribute
+row.names
+
+constructor:
+read.table()
+read.csv()
+
+frame to matrix: (forced coercion could result in weird data)
+data.matrix()
+
+x <- data.frame(foo = 1:4, bar = c(T,T,F,T))
+nrow(x)
+ncol(x)
+
+
+Names:
+seems to be the names of the columns
+lists can also be named
+----
+
+x <- 1:3
+names(x) <- c("foo","bar","norf")
+----
+
+x <- list(a = 1, b=2, c=3)
+
+----
+
+m <- matrix(1:4, nrow=2, ncol=2)
+dimnames(m) <- list(c("a",b"), c("c","d"))
+##a,b are rows names - c,d are column names
+
+
