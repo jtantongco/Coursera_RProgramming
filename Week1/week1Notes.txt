@@ -1,0 +1,94 @@
+
+create a empty vector
+vector()
+
+list vs vector
+list can have multiple types within it
+
+
+each line is an expression
+
+assignment
+<- 
+x <- 1
+
+print:
+print(x)
+x
+
+## comments on the  right side
+
+assign the numbers one to 20 to x (as a vector?)
+x <- 1:20
+
+assign the integer 4
+x <- 4L
+
+assgin the numeric 4
+x <- 4
+
+creating a vector:
+x <- c(a,b, ..., n) 
+note: type of a to n must be equivalent
+
+x <- 9:29 
+note: fore integer
+
+types:
+numeric (decimal reals)
+logical (T/F or True/False)
+character
+integer 
+complex (1+0i)
+
+coercion if you try to combine vectors of different types
+(logical seems to be the lowest priority)
+
+changing the type [explicit coercion]:
+ex:
+as.numeric(x)
+as.logical(x)
+as.character(x)
+as.logical(x)
+as.complex(x)
+
+get NA if the coercion doesnt work
+
+m <- matrix (nrow = 2, ncol = 3)
+
+display matrix details
+dim(m)
+attributes(m)
+
+rows then cols
+
+fill matrix cols first then iterate on rows
+
+change the list of 1 to 10 to a 2 by 5 column wise matrix
+m <- 1:10
+dim(m) <- c(2,5)
+
+cbind - column bind
+takes in a number of vectors (all of same type?)
+
+generates a matrix with the number of columns being the number of vectors
+each column is a different vector
+the number of rows is the longest cardinality vector
+those that are too short are repeated until the end of the pattern
+
+rbind is the same thing but transposed (row bind)
+
+lists:
+x <- list(1,"a",TRUE, 1+4i)
+
+1st element: x[1] -> returns a list
+
+y scalar 2
+x vector 1:4
+
+x+y -> adds 2 to each element
+
+boolean selection and iteration (conditional assignment)
+x[x<=5] <- 0
+
+set all elements in the list x that are less than or equal to 5 to 0
