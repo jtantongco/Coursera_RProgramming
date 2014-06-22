@@ -1,0 +1,114 @@
+Loop functions:
+
+lappy (basically map)
+loop over a list and apply a function to each element of vector.
+
+x <- list(a = 1:5, b = rnorm(10))
+get the average of each list as a vector
+lapply(x, mean)
+
+##make a list of the random uniform var
+## arg will make that number of numbers
+x <- 1:4
+lapply(x, runif)
+
+##same function but values from 0 to 10
+x <- 1:4
+lapply(x, runif, min = 0, max = 10)
+
+x <- list(a=matrix(1:4,2,2), b=matrix(1:6,3,2))
+lapply(x, function(elt) elt[,1])
+
+[the *elt* can be different string text]
+
+lapply returns a list of lists
+sapply returns a vector if all lists are only length 1
+sapply returns a matrix if all lists are the same length
+
+apply collapses a matrix using the supplied function
+apply(matrix_name, opCode, fcn) (has the ... after the fcn?)
+opCode legend:
+1 for rows
+2 for columns
+
+Note this works too:
+boom <- function(x,y){
+	x+y
+}
+apply(x,1, y=3)
+
+from example:
+ x<-matrix(rnorm(200),20,10)
+apply(x,1,quantile, probs = c(0.25,0.75))
+
+also anonymous functions:
+c <- apply(x,2, function(elt) elt+100)
+
+a <- array(1:20, c(2,2,5))
+apply(a,c(1,2), sum) ##sums all the corresponding cells in all the arrays
+## ie all are 2x2 array -> result will be 2x2 array where
+## the top left cell will contain the sum of all the topleft cell values
+functionally equivalent to:
+rowSums(b, dims = 2)
+
+There are a bunch of functions like rowSums
+rowSums, rowMeans, colSums, colMeans
+
+tapply:
+x <- c(rnorm(10),runif(10), rnorm(10,1) )
+f <- gl(3,10)
+##make a vector with 3 groups, with values 1 to 3, the groups should be size 10
+
+tapply(x,f,mean) ##take a mean based on the grouping in f on the dataset x
+tapply(data,grouping,fcn, simplify [<- boolean] )
+simplify is on by default, returns a neat table, if turned off, will return a list. 
+fcn does not have to be single output, can be multi-output (ex the range function -> will default to return a list)
+tapply(x,f,range)
+
+
+split:
+lapply(split(x,f),mean) == tapply(x,f,mean)
+
+use it on some old questions:
+s <- split(airquality, airquality$Month)
+lapply(s, function(x) colMeans(x[,c("Ozone", "Solar.R","Wind")])) -- in a list
+sapply(s, function(x) colMeans(x[,c("Ozone", "Solar.R","Wind")])) -- in a table
+sapply(s, function(x) colMeans(x[,c("Ozone", "Solar.R","Wind")], na.rm = T)) -- in a table with NA rows removed from dataset
+
+x <- rnorm(10)
+f1 <- gl(2,5)
+f2 <- gl(5,2)
+interaction(f1,f2) --> creates permutation of combined classification levels
+
+split(x, list(f1,f2)) --> splits on the different levels of the data
+str(split(x, list(f1,f2))) --> formats it nicely afterward
+
+note that there are empty vectors for the permutation with no observed data points
+turn drop to true to remove empty datasets
+str( split(x, list(f1,f2), drop = T) )
+
+mapply
+apply a function to multiple lists in parallel
+
+list(rep(1,4), rep(2,3), rep(3,2), rep(4,1))
+is the same as:
+mapply(rep, 1:4, 4:1)
+
+noise <- function(n, mean, sd){
+	rnorm(n, mean, sd)
+}
+
+noise(5,1,2)
+get a list of 5 numbers of random noise
+
+what if you want a list of
+1 random num
+2 random num
+...
+5 random num
+
+mapply(noise, 1:5, 1:5, 2)
+
+which is the same as:
+list(noise(1,1,2), noise(2,2,2), noise(3,3,2), noise(4,4,2, noise(5,5,2)))
+

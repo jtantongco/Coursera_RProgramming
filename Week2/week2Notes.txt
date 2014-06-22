@@ -1,0 +1,78 @@
+if else:
+if(x>3){}
+	y <- 10
+} else {
+	y <- 0
+}
+
+equivalently:
+y <- if(x > 3){
+	10
+} else {
+	0
+}
+
+note: "else if(expr){ ... }" also exists
+*conditions are evaluated left to right in compound expressions*
+----
+
+Iterations:
+for(i in 1:10){print(i)}
+
+note:
+x <- c("a","b","c","d")
+
+for(i in 1:4) {print(x[i])}
+for(i in 1:4) print(x[i])
+for(i in seq_along(x)) {printx(x[i])}
+for(letter in x){print(letter)}
+
+----
+
+nesting - iterating a matrix
+
+x <- matrix(1:6,2,3)
+
+for(i in seq_len(nrow(x))){
+	for(j in seq_len(ncol(x))){
+		print(x[i,j])
+	}
+}
+
+-----
+
+while
+
+count <- 0
+
+while(count < 10){ 
+	print(count)
+	count <- count + 1
+}
+
+----
+
+repeat -> infinite loop
+end with the break keyword
+
+##tolerance iteration -> assumes get closer as multiple generations occur
+x0 <- 1
+tol <- 1e-8
+repeat{
+	x1 <- computeEstimate()
+	if(abs(x1 - x0) < tol){
+		break
+	} else {
+		x0 <- x1
+	}
+}
+
+----
+next, return
+next - skip iteration
+
+for(i in 1:100){
+	if(i<=20){next} #skip first 20
+}
+
+return -> much like any program language ends current scope and forces a function to return

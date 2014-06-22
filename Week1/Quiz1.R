@@ -19,7 +19,7 @@ data[47,]
 
 ##16 method 1
 ozoneData <- data[,1]
-ozoneData[is.na(ozoneData] <- 1000000 ##assuming no confounding 1000000
+ozoneData[is.na(ozoneData)] <- 1000000 ##assuming no confounding 1000000
 table(ozoneData) ## read the count of 1000000
 
 ##16 method 2 <- semantically better and no confounding weakness

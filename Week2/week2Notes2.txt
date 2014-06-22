@@ -1,0 +1,124 @@
+function: 1st class objects
+
+f <- function(<args>){
+	## fcn body
+}
+
+note functions handle arguments by name, not necessarily by order
+ex sd takes x and na.rm as args
+sd(x = mydata, na.rm = FALSE) is the same as sd(na.rm = FALSE, x = mydata)
+
+what if one is named and other is not?
+explictly named is assigned first then tries to fill remaining args by default unnamed order
+
+operations are legal but not recommened to be messed with
+
+args(<fun>)
+
+prints out the list of arguments that a function takes
+arguments can be partially matched as well
+
+order of resolution:
+1) exact match
+2) partial match
+3) positional match
+
+Functions are lazily evaluated
+Args can have default values
+
+f <- function(a, b = 1, c = 2, d = NULL){
+	
+}
+
+errors can occur when a variable is asked to be evaluated but is not declared
+
+the ... indicates a number of arguments that are "inherited" and passed on to another function
+ex:
+myplot <-  function(x,y, type = "1", ...){
+	## unique fcn body
+	plot(x,y, type = type, ...)  ## previosly implemented function using "inherited" param
+}
+
+The ... can be the first argument -> this is the case when the # of arguments is not known
+
+Any arguments that appear AFTER the ... ont he argument list must be named explicitly
+
+Changing indent:
+CTRL + i -> Change tab width in tools -> global options -> code options
+
+
+functions can make other functions in R
+ex:
+make.power <- function(n){
+	pow <- function(x){
+		x^n
+	}
+	pow
+}
+
+how to know what is in a functions environment:
+## list the variables
+ls(environment(<fcn_name>))
+## get the value of a variable
+get("<var_name>", environment(<fcn_name>))
+
+lexical scoping -> search outward in environments
+
+Vectorized Operations:
+x <- 1:4; y <- 6:9
+x + y | x * y | x / y
+
+this results in a same length vector from adding the corresponding slot of each vector being added together
+
+x > 2
+maps the logical to a same length vector where the above expression is applied
+some operators: >, >=, <, <=, ==
+
+x <- matrix(1:4, 2, 2); y <- matrix(rep(10,4),2,2)
+x*y ## element wise multipication (cell to cell is multipled)
+x/y ## element wise division
+x%*%y ## true matrix multiplication
+
+
+Dates -> no time, MMDDYYY info only, stored as days from Epoch
+Epoch is 1970/01/01
+
+Time is stored as seconds from Epoch
+
+x <- as.Date("1970-01-01")
+x
+unclass(x) ##gives the raw number of days
+
+Times
+POSIXct <- integer
+POSIXlt <- list
+
+
+x <- Sys.time() ##by default, in POSIXct format
+x
+p <- as.POSIXlt(x)
+names(unclass(p))
+p$sec
+
+converting string to object:
+datestring <- c("January 10, 2012 10:40","December 9, 2011")
+x <- strptime(datestring, "%B %d %Y %H:%M") ##for formatting details: ?strptime
+x
+class(x)
+
+*incomplete formatting results in a NA
+
+can do numeric operations on dates:
+x <- as.Date("2012-01-01")
+y <- strptime("9 Jan 2011 11:34:21", "%d %b %Y %H:%M:%S")
+x-y ##must be the same type
+
+x <- as.POSIXlt(x)
+x-y
+
+#can have timezones
+y <- as.POSIXct("2012-10-25 06:00:00", tz="GMT")
+
+
+
+

@@ -1,0 +1,51 @@
+message(general notification), warning (not necessarily fatal, errors (fatal error), conditions (unexpected)
+
+
+
+log(-1) -> NaN
+warning
+
+error
+printmessage <- function(x){
+	if(x>0){
+		print("x is greater than zero")
+	} else {
+		print("x is less than or equal to zero")
+	}
+	invisible(x) ## prevents auto printing
+}
+
+will print error if the type of x is not numeric
+
+printmessage <- function(x){
+	if (is.na(x)){
+		print("x is missing a value")
+	}else if(x>0){
+		print("x is greater than zero")
+	} else {
+		print("x is less than or equal to zero")
+	}
+	invisible(x) ## prevents auto printing
+}
+
+debugging tools:
+
+traceback -> function call stack
+debug -> debug mode - line by line - puts in browser mode (at first mode)
+browser -> suspends execution and activiates browser mode at the browser line
+trace -> allows you to insert debugging at specific places (without altering code)
+recover -> allows you to modify error behavior so that you can browse the function call stack
+
+recover is an error handling function (like try-catch?)
+
+mean(x)
+traceback() ## only tracebacks last command line called
+
+debug(lm)
+lm( y - x )
+--> puts you into browser mode
+can debug functions while you are in debugger
+type n and enter to go to the enxt line
+
+options(error = recover)
+then it will ask for selection of 1,2,3,... to browse the environment of state
