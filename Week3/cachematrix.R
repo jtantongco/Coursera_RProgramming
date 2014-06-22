@@ -1,3 +1,5 @@
+# Author: Jeremiah Tantongco
+
 ## Put comments here that give an overall description of what your
 ## functions do
 
@@ -66,4 +68,3 @@ cacheSolve <- function(x, ...){
 #  cMat$getinverse()
 #  cMat5 <- cacheSolve(cMat)
 #  cMat$getinverse()
-
