@@ -1,0 +1,176 @@
+str -> complactly display the internal structure of an r object
+
+str(fcn)
+-> show method sig and some of fcn body
+
+summary(x) -> summary stats on x (min, max, quartiles, median and mean)
+
+str(x) on data
+object type, length, and some head values
+
+
+Factors
+f <- gl(40,10)
+str(f)
+summary(f) -> different basically runs table on f
+
+
+library(datasets)
+head(airquality) #look at the first few rows
+
+str(dataframe)
+number of observations
+number of variables
+name of variables
+type of variables
+first few values
+
+m <- matrix(rnorm(100),10,10)
+str(m)
+type of matrix
+# of rows
+# of columns
+first few values (from the first columns)
+
+s <- split(airquality,airquality$Month)
+str(s)
+makes a list where each element is a dataframe over the splitting var 
+
+prefixes:
+d -> density
+r -> random # gen
+p -> cumulative distribution
+q -> quantile
+
+applied to pois, gamma, norm, etc.
+ie dgamma, rgamma, ...
+
+all distros require mean and sd
+default is mean = 0 and sd = 1
+
+has an option log, defaul is false but apparently you want this to be true most of the time [is sometimes log.p]
+lower.tail = true (left hand side of distro) / lower.tail = false (right hand side of distro)
+
+ie dnorm(x, mean = 0, sd = 1, log = false)
+pnorm(q, mean = 0, sd = 1, lower.tail = true, log.p = false)
+qnorm(p, mean = 0, sd = 1, lower.tail = true, log.p = false)
+rnorm(n, mean, = 0, sd = 1) -> n  is the number of variables you want from distro
+
+10 random numbers with mean 20 and sd 2
+x <- rnorm(10,20,2)
+
+setting the seed
+set.seed(num)
+
+set.seed(1)
+rnorm(5)
+rnorm(5)
+set.seed(1)
+rnorm(5) #should be the same as 1st rnorm(5) call
+
+rpois(10,1) 10 variables @ rate 1 -> mean = rate [roughly]
+ppois(2,2) cumulative distribution -> Pr(x <= 2 @ rate of 2)
+ppois(4,2) -> Pr(x <= 4 @ rate of 2)
+
+
+normal linear model:
+set.seed(20)
+x <- rnorm(100)
+e <- rnorm(100, 0, 2)
+y <- 0.5 + 2*x+e
+summary(y)
+plot(x,y)
+
+Binomial
+changing x
+x <- rbinom(100,1,0.5) -> probability of n = 1 is 0.5
+
+Poisson
+set.seed(1)
+x <- rnorm(100)
+log.mu <- 0.5 + 0.3*x [# linear predictor]
+y <- rpois(100, exp(log.mu))
+summary(y)
+plot(x,y)
+
+sample function:
+set.seed(1)
+sample(1:10,4) ##randomly take 4 values from 1:10 (without replacement)
+sample(letters,5)
+sample(1:10) ## permutations of the vector 1 to 10
+sample(1:10, replace = TRUE) ## sample with replacement
+
+
+sytem.time()
+Gives the time in seconds to evaluate the expression.
+If error in code, it will give time until the error occurs
+
+-> user time  : time charged to CPU for expression
+-> elapsed time : user experiencess
+
+relatively close usually
+
+
+Profiling:
+Normalization
+
+By total -> 
+By self ->
+
+Technically 100% time in top level function
+by self -> subtract lower level function 
+
+
+----
+How to run the profiler
+Rprof()
+
+... Code to be profiled here ...
+
+Rprof(NULL)
+summaryRprof()
+
+----
+
+Write a constructor function when optimizing
+
+make.NegLogLik <- funtion(data, fixed=c(FALSE,FALSE)) {
+	params <- fixed
+	function(p) {
+		params[!fixed] <- p
+		mu <- params[1]
+		sigma <- params[2]
+		a <- -0.5*length(data)*log(2*pi*sigma^2)
+		b <- -0.5*sum((data-mu)^2)/(sigma^2)
+		-(a+b)
+	}
+}
+
+A function that creates a function with a paired enclosing environment
+ls(environment(nLL)) -> will show where the environment details
+writing the name of the function will give hex mem addr that shows where the env is
+
+Start optimizing
+
+optim(c(mu=0, sigma=1), nLL)$par
+
+changing env
+nLL <- make.NegLogLik(normals, c(FALSE, 2))
+optimize(nLL, c(-1,-3))$minimum
+
+nLL <- make.NegLogLik(normals, c(1, FALSE))
+optimize(nLL, c(1e-6,10))$minimum
+
+Plot likelihood
+
+nLL <- make.NegLogLik(normals,(c(1,FALSE)))
+x <- seq(1.7, 1.9, len=100)
+y <- sapply(x, nLL)
+plot(x, exp(-(y - min(y))), type = "l")
+
+nLL <- make.NegLogLik(normals,(c(FALSE,2)))
+x <- seq(0.5, 1.5, len=100)
+y <- sapply(x, nLL)
+plot(x, exp(-(y - min(y))), type = "l")
+
+R is good for minimization and optimization
